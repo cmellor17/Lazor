@@ -6,7 +6,7 @@ from laser import Laser
 from utils import compare_point_sets, print_grid, format_output_grid
 from solver import outputter
 
-def run_lazor_solver(filename, maxiter=10):
+def run_lazor_solver(filename, maxiter=10000):
     """
     Main driver function to run the Lazor game solver.
 
@@ -17,7 +17,9 @@ def run_lazor_solver(filename, maxiter=10):
     if not os.path.exists(filename):
         print(f"Error: File '{filename}' not found.")
         return
-
+    
+    attempts = set() # Track attempted grids to avoid trying the same ones over and over
+    
     for i in range(maxiter):
         laz_parser = LazorParser(filename)
         data = laz_parser.parse()
@@ -43,7 +45,18 @@ def run_lazor_solver(filename, maxiter=10):
             return meshgrid
 
         sample_space = sampler(board.grid)
-        sampled_grid = board.sample_board(sample_space, board.sets, board.grid)
+        attempted = True
+        attempt_count = 0
+        while attempted and attempt_count < 500:
+            sampled_grid = board.sample_board(sample_space, board.sets, board.grid)
+            grid_key = tuple(tuple(row) for row in sampled_grid)
+
+            if grid_key not in attempts:
+                attempted = False
+                attempts.add(grid_key)
+            
+            attempt_count += 1
+
         mesh = make_board(sampled_grid)
 
         laser = Laser(board.origin, board.path)
@@ -61,6 +74,7 @@ def run_lazor_solver(filename, maxiter=10):
 
         if i % 1000 == 0:
             print(f"[Iteration {i}] Trying new layout...")
+
 
     print("\nMax iteration allowance reached: no solution found")
     print("Block counts:", board.sets)
@@ -81,4 +95,4 @@ def get_user_filename():
 if __name__ == '__main__':
     #filename = get_user_filename()
     filename = "g:\My Drive\School\classes\Software Carpentry\Lazor Project\data\dark_1.bff"
-    run_lazor_solver(filename, maxiter=50)
+    run_lazor_solver(filename, maxiter=5000)

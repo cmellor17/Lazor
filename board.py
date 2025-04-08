@@ -33,11 +33,8 @@ class SetUpBoard:
         blocks = {'A': nA, 'B': nB, 'C': nC}
         block_pool = ['A'] * nA + ['B'] * nB + ['C'] * nC
         random.shuffle(block_pool)
-
+        
         for (i, j), block_type in zip(options, block_pool):
             grid[j][i] = block_type
-        
-        print("Printing grid from board.py", flush=True)
-        print(grid, flush=True)
         
         return grid
