@@ -63,7 +63,7 @@ def run_lazor_solver(filename, maxiter=10000):
         intercepts, _, refract_paths = laser.trajectory(board.path, board.grid, mesh)
         all_hits = intercepts + refract_paths
 
-        if compare_point_sets(all_hits, data['points']):
+        if compare_point_sets(data['points'], all_hits):
             print(f"\nSolution found in {i + 1} iterations!")
             print("Final mesh board:")
             print_grid(mesh)

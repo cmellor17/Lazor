@@ -21,7 +21,7 @@ def compare_point_sets(set1, set2):
     """
     Compare two sets of points (tuples) to check if they match.
     """
-    return set(set1) == set(set2)
+    return set(set1).issubset(set(set2))
 
 def format_output_grid(meshgrid):
     """

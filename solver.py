@@ -27,7 +27,7 @@ def solution_generator(filename, maxiter=10):
         data = parser.parse()
 
         B = SetUpBoard(data['grid'], [pos for pos, _ in data['lazors']],
-                       [dir for _, dir in data['lazors']], data['block_counts'])
+                       [dir for _, dir in data['lazors']], data['blocks'])
 
         sample_space = B.sampler(B.grid)
         sampled_grid = B.sample_board(sample_space, B.sets, B.grid)
