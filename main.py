@@ -47,7 +47,7 @@ def run_lazor_solver(filename, maxiter=10000):
         sample_space = sampler(board.grid)
         attempted = True
         attempt_count = 0
-        while attempted and attempt_count < 500:
+        while attempted and attempt_count < 1000000:
             sampled_grid = board.sample_board(sample_space, board.sets, board.grid)
             grid_key = tuple(tuple(row) for row in sampled_grid)
 
@@ -75,7 +75,6 @@ def run_lazor_solver(filename, maxiter=10000):
         if i % 1000 == 0:
             print(f"[Iteration {i}] Trying new layout...")
 
-
     print("\nMax iteration allowance reached: no solution found")
     print("Block counts:", board.sets)
     print("Targets:", data['points'])
@@ -93,6 +92,5 @@ def get_user_filename():
 
 
 if __name__ == '__main__':
-    #filename = get_user_filename()
-    filename = "g:\My Drive\School\classes\Software Carpentry\Lazor Project\data\dark_1.bff"
-    run_lazor_solver(filename, maxiter=5000)
+    filename = get_user_filename()
+    run_lazor_solver(filename, maxiter=50000)
